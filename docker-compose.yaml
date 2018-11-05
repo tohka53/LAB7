@@ -13,11 +13,12 @@ services:
     restart: always
     ports:
       - 8080:8080
-        WebApp: 
-          container_name: LAB7
-          build: 
-           context: .
-          dockerfile: Dockerfile
+
+  web: 
+    container_name: lab7
+    build:
+      context: . 
+      dockerfile: Dockerfile
     volumes: 
       - '.:/fronted/src/app'
       - '/fronted/src/app/node_modules'
@@ -25,5 +26,4 @@ services:
       - '4200:4200'
     environment: 
       -  POSTGRES_PASSWORD: 123456
-          POSTGRES_USER: ADMIN
-
+      - POSTGRES_USER: ADMIN
