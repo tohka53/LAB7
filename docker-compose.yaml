@@ -16,14 +16,11 @@ services:
 
   web: 
     container_name: lab7
-    build:
-      context: . 
+    build: .:/fronted/src/app'
+      context:  '.:/fronted/src/app'
       dockerfile: Dockerfile
     volumes: 
       - '.:/fronted/src/app'
       - '/fronted/src/app/node_modules'
     ports: 
       - '4200:4200'
-    environment: 
-      -  POSTGRES_PASSWORD: 123456
-      - POSTGRES_USER: ADMIN
