@@ -1,24 +1,29 @@
-version: "2"
+version: "2.1"
 
-services:
-  webserver:
-  build: ./Web
-  volumes:
-    - ./Web:var/www/html
+services: 
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
     ports:
-      -"80:80"
-
-      sqldb:
-        build: ./DB-mongoose
-        volumes:
-         - ./DB-mongoose:/user/scr/app
-         port: "4200:80"
-
-    postgresql:
-      build: ./DB-Pstgres
-      evironmet:
-          POSTGRES_PASSWORD: 123456
+      - 8080:8080
+        WebApp: 
+          container_name: LAB7
+          build: 
+           context: .
+          dockerfile: Dockerfile
+    volumes: 
+      - '.:/fronted/src/app'
+      - '/fronted/src/app/node_modules'
+    ports: 
+      - '4200:4200'
+    environment: 
+      -  POSTGRES_PASSWORD: 123456
           POSTGRES_USER: ADMIN
-
-
 
