@@ -31,4 +31,19 @@ services:
     image: mongo:3.6-stretch
     restart: always
     ports:
+<<<<<<< HEAD
       - 27017:27017
+=======
+      - 8080:8080
+
+  web: 
+    container_name: lab7
+    build: .:/fronted/src/app'
+      context:  '.:/fronted/src/app'
+      dockerfile: Dockerfile
+    volumes: 
+      - '.:/fronted/src/app'
+      - '/fronted/src/app/node_modules'
+    ports: 
+      - '4200:4200'
+>>>>>>> a139bde0be133a7448fcb33eb22379043d476e8b
