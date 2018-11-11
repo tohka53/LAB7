@@ -1,6 +1,16 @@
-FROM node:DB-mongoose
-ENV NODE_ENV production
-WORKDIR /user/scr/app  
-COPY redis.conf /usr/local/etc/redis/redis.conf
-CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
-EXPOSE 8000
+
+#build stage
+FROM golang:alpine AS builder
+WORKDIR /go/src/app
+COPY . .
+RUN apk add --no-cache git
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+#final stage
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /go/bin/app /app
+ENTRYPOINT ./app
+LABEL Name=lab7 Version=0.0.1
+EXPOSE 3000

@@ -1,29 +1,32 @@
-version: "2.1"
-
-services: 
-  mongo:
-    image: mongo
-    restart: always
+version: '3'
+services:
+  frontend:
+    container_name: frontend
+    hostname: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+   
+  backend:
+    container_name: backend
+    hostname: backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      BASE_URL: http://localhost:4200 
+      MONGO_URI: mongodb://mongo/mean-crud
+    depends_on:
+      - mongo
+      - frontend
 
-  mongo-express:
-    image: mongo-express
+
+  mongo:
+    image: mongo:3.6-stretch
     restart: always
     ports:
-      - 8080:8080
-        WebApp: 
-          container_name: LAB7
-          build: 
-           context: .
-          dockerfile: Dockerfile
-    volumes: 
-      - '.:/fronted/src/app'
-      - '/fronted/src/app/node_modules'
-    ports: 
-      - '4200:4200'
-    environment: 
-      -  POSTGRES_PASSWORD: 123456
-          POSTGRES_USER: ADMIN
-
+      - 27017:27017
