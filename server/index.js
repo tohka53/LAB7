@@ -7,8 +7,10 @@ const { mongoose } = require('./database');
 // Settings
 app.set('port', process.env.PORT || 3000);
 
+const BASE_URL= process.env.BASE_URL || 'http://localhost:4200'
+
 // Middlewares
-app.use(cors({origin: 'http://localhost:4200'}));
+app.use(cors({origin: BASE_URL}));
 app.use(express.json());
 
 // Routes
